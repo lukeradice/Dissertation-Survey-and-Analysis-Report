@@ -1,0 +1,40 @@
+# Core LaTeX auxiliary and log files
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+.*.lb
+
+# Bibliography (BibTeX and Biber) temporary files
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+
+# SyncTeX (VS Code PDF-to-code jump files)
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+# Build tools & editor temp files (latexmk, VS Code, macOS/Windows)
+*.fdb_latexmk
+*.xdv
+*.nav
+*.snm
+*.vrb
+.DS_Store
+Thumbs.db
+
+# Optional: Uncomment the line below if you do NOT want your final compiled PDF tracked in Git
+# *.pdf
