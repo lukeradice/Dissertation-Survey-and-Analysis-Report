@@ -1,41 +1,38 @@
 \chapter{Literature Survey}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. \cite{Reference2} Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. 
-\begin{equation}
-M = \frac{1}{T}\sum_{t=1}^{T} e(t) / \max_{t}[e(t)]
-\end{equation}
-Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+\section{Foundations of A Fact Verification}
 
-\section{A Section that Contains a Figure}
+\subsection{Fact Verification is a Text Classification Problem}
+Text classification problems are defined as problems where you are given a textual input, and then you assign a label to said text (citation?). Fact verification in most of its forms (citation?) is a text classification problem where, given a claim and a piece of evidence both expressed as text, you determine if the claim is entailed or refuted, and you could also label if there is not enough information in the evidence. This means many of the methods you apply to text classification can apply to provide a solution to fact verification. 
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim \cite{Reference1}. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. 
-\begin{figure}[ht]
-\includegraphics[width=15cm]{figures/figure1.png}
-\caption{A simple figure in \LaTeX. Reproduced from http://tinyurl.com/nqtrlj5 with the permission of the copyright owner.}
-\label{fig:graph}
-\end{figure}
-Porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. See Figure \ref{fig:graph}. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+\subsection{Implementing Fact Verification}
+Many effective solutions for solving text classification problems involve creating embeddings. Logistic regression (citation?) is a simple method for approaching this, where you create a line to separate the classes of entailment and refutation in a feature space after you convert the table and claim into a vector, using techniques such as TFIDF (citation?). More complex methods using these embeddings involve neural networks \parencite{goodfellow2016deep} and multi-layer perceptrons \parencite{christopher2006pattern}, where, through training and backpropagation, you can arrive at logits which can be converted into probabilities for each text classification class. Transformers and pre-trained encoder backbones (citation?) go further; for example, BERT \parencite{devlin2019bert} can more effectively capture semantic meaning in statements through attention. These are trained through token masking (citation?). Fixed embeddings have the same embedding for a word even in a different context. The idea with a transformer like BERT is that if you fine-tune it with a gold-evidence setting for your text classification task (citation?), it can produce impressive results. There are plenty of examples of its use in recent text classification literature (citations?), but this is how most neural fact verification models work with different input preprocessing.
 
-\section{A Section that Contains a Table}
+\vspace{\baselineskip}
+\noindent Autoregressive decoder-only models such as GPT-2 \parencite{radford2019language} and Qwen3 \parencite{yang2025qwen3} and are pretrained by next-token prediction. These are adapted for use in text classification tasks, including fact verification (citations?). Approaches include fine-tuning the sequence classification head on the final token (citations?), or prompting instruction-tuned models with zero- or few-shot prompts (citations?) and parsing the resulting label predictions (or label-token probabilities directly).
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, \cite{Reference3} pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, 
+\vspace{\baselineskip}
+\noindent A baseline that evaluated many of these methods was FEVER \parencite{thorne2018fever}, which formalised fact verification as a 3-label task (SUPPORTED, REFUTED, NOT ENOUGH INFO) paired with fetching relevant natural language statements from Wikipedia.
 
-\begin{table}[ht]
-\center
-\begin{tabular}{cc|c}
-A & B & A XOR B\\
-\hline
-0 & 0 & 0\\
-0 & 1 & 1\\
-1 & 0 & 1\\
-1 & 1 & 0\\
-\end{tabular}
-\caption{A simple table in \LaTeX.}
-\label{tab:xor}
-\end{table}
+\subsection{Multi-hop Reasoning}
+A key concept in fact-verification is multi-hop reasoning, which in this context is defined as verifying a claim by connecting multiple pieces of information through a sequence of linked inference steps across one or many sources rather than just a direct fact. For example, to verify the hypothetical claim “The winner of Wimbledon 2021 lineup hates pineapples”, you have to get information about the winner of Wimbledon in 2021 and a separate piece of information on whether they do or do not hate pineapples (2-hop). HotpotQA \parencite{yang2018hotpotqa} describes multi-hop reasoning categories as involving bridge entities, where you use the entity from one source to find the other source and comparison reasoning, which is where the question is based on a shared entity. HoVer \parencite{jiang2020hover} built on this for multi-hop open-domain fact verification up to four Wikipedia article hops, with performance degrading significantly for state-of-the-art models, showing a need for effective multi-hop reasoning in fact verification pipelines that retrieve information and predict. 
 
-porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. See Table \ref{tab:xor}. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+\section{Representing Tables}
 
-\section{Summary}
+\subsection{Methods of Representing Tables}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.
+\subsection{Applications of Table Representation for Single Table Classification Tasks} 
+
+\section{Evidence Retrieval and Reasoning with Multiple Pieces of Evidence}
+
+\subsection{Need for Evidence Retrieval}
+
+\subsection{Methods of Evidence Retrieval}
+
+\subsection{Multi-hop Reasoning with Multiple Pieces of Evidence}
+
+\section{Bringing it all together: Multi-table Multi-hop Fact Verification}
+
+\subsection{End-to-end Application and Evaluation: TRACE}
+
+\subsection{Future Directions}
