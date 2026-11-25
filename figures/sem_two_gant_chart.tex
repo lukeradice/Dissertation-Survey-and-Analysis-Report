@@ -1,0 +1,37 @@
+\definecolor{gridgray}{RGB}{226, 232, 240}
+\definecolor{barblue}{RGB}{44, 90, 160}
+\definecolor{barteal}{RGB}{0, 128, 128}
+\definecolor{baramber}{RGB}{217, 119, 6}
+\definecolor{barpurple}{RGB}{109, 40, 217}
+\definecolor{bargreen}{RGB}{21, 128, 61}   
+\definecolor{barslate}{RGB}{71, 85, 105}
+\definecolor{milestonecolor}{RGB}{185, 28, 28}
+
+\begin{figure}[htbp]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{ganttchart}[
+            hgrid={*1{gridgray, dotted}},
+            vgrid={*1{gridgray, solid}},
+            x unit=0.75cm,
+            y unit chart=0.7cm,
+            bar/.style={draw=none, rounded corners=2pt},
+            milestone/.style={fill=milestonecolor, draw=none, rounded corners=1pt}
+        ]{1}{12}
+            \gantttitle{Project Timeline (Weeks)}{12} \\
+            \gantttitlelist{1,...,12}{1} \\
+            
+            \ganttbar[bar/.append style={fill=barblue}]{Compute top-5 retrieved tables (SBERT)}{1}{2} \\
+            \ganttbar[bar/.append style={fill=barteal}]{Re-run baselines on multi-table dataset}{3}{5} \\
+            \ganttbar[bar/.append style={fill=baramber}]{Evaluate new approaches}{6}{9} \\
+            
+            \ganttbar[bar/.append style={fill=barpurple}]{Dissertation writing}{6}{9} \\
+            \ganttbar[bar/.append style={fill=bargreen}]{Presentation preparation}{9}{10} \\
+            \ganttbar[bar/.append style={fill=barslate}]{Final revisions from feedback}{11}{11} \\
+            
+            \ganttbar[bar/.append style={fill=milestonecolor}]{Dissertation submission}{12}{12}
+        \end{ganttchart}%
+    }
+    \caption{Twelve-week project schedule covering evidence retrieval, baseline evaluation, novel experiments, and dissertation writing.}
+    \label{fig:project-gantt}
+\end{figure}
